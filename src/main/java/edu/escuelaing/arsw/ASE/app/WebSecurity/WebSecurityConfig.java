@@ -14,38 +14,38 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig {
-
-	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http
-            .authorizeHttpRequests((requests) -> requests
-                .requestMatchers("/", "/home", "/login", "/css/**", "/js/**").permitAll()
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+            .authorizeRequests()
+                .antMatchers("/", "/home", "/login", "/css/**", "/js/**").permitAll()
                 .anyRequest().authenticated()
-            )
-            .formLogin((form) -> form
+                .and()
+            .formLogin()
                 .loginPage("/login")
                 .defaultSuccessUrl("/index.html", true)
                 .permitAll()
-            )
-            .logout((logout) -> logout.permitAll());
+                .and()
+            .logout()
+                .permitAll();
+    }
 
-        return http.build();
-	}
+    @Bean
+    @Override
+    public UserDetailsService userDetailsService() {
+        UserDetails user = User.builder()
+            .username("user")
+            .password(passwordEncoder().encode("password"))
+            .roles("USER")
+            .build();
 
-	@Bean
-	public UserDetailsService userDetailsService() {
-		UserDetails user = User.builder()
-			.username("user")
-			.password(passwordEncoder().encode("password"))
-			.roles("USER")
-			.build();
+        return new InMemoryUserDetailsManager(user);
+    }
 
-		return new InMemoryUserDetailsManager(user);
-	}
-
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 }
