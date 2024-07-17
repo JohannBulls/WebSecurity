@@ -18,12 +18,11 @@ public class TicketController {
     /**
      * Endpoint to generate a new ticket for WebSocket authorization.
      *
-     * @param userId The ID of the user requesting the ticket.
-     * @return The generated ticket as a string.
+     * @return The generated ticket as a string
      */
     @GetMapping("/generate")
     public String generateTicket() {
-        // Generate a new ticket based on user ID or other relevant information
+        // Generate a new ticket
         String ticket = ticketService.generateTicket();
         return ticket;
     }

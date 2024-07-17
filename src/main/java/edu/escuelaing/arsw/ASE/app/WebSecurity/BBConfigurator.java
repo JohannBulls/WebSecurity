@@ -11,11 +11,12 @@ import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 @Configuration
 @EnableScheduling
 public class BBConfigurator {
+    
     /**
-     * Bean definition for the ServerEndpointExporter.
+     * Bean definition for the {@link ServerEndpointExporter}.
      * This bean enables WebSocket server endpoint registration.
      *
-     * @return ServerEndpointExporter instance.
+     * @return {@link ServerEndpointExporter} instance
      */
     @Bean
     public ServerEndpointExporter serverEndpointExporter() {

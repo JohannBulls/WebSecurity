@@ -1,11 +1,11 @@
 package edu.escuelaing.arsw.ASE.app.WebSecurity;
 
 import java.io.IOException;
-import java.util.logging.Level;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import jakarta.websocket.OnClose;
 import jakarta.websocket.OnError;
@@ -13,7 +13,6 @@ import jakarta.websocket.OnMessage;
 import jakarta.websocket.OnOpen;
 import jakarta.websocket.Session;
 import jakarta.websocket.server.ServerEndpoint;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,20 +23,31 @@ import org.springframework.stereotype.Component;
 @Component
 @ServerEndpoint("/bbService")
 public class BBEndpoint {
+    
     private static final Logger logger = Logger.getLogger(BBEndpoint.class.getName());
-    /* Queue for all open WebSocket sessions */
+    
+    /**
+     * Queue for all open WebSocket sessions.
+     */
     static Queue<Session> queue = new ConcurrentLinkedQueue<>();
+    
+    /**
+     * Session of the current instance.
+     */
     Session ownSession = null;
 
-    // Map to store tickets with their corresponding sessions
+    /**
+     * Map to store tickets with their corresponding sessions.
+     */
     private static Map<String, Session> ticketSessionMap = new HashMap<>();
     
     @Autowired
     private TicketService ticketService;
+
     /**
      * Sends a message to all connected WebSocket clients except the sender.
      *
-     * @param msg The message to send.
+     * @param msg The message to send
      */
     public void send(String msg) {
         try {
@@ -53,8 +63,8 @@ public class BBEndpoint {
     /**
      * Handles incoming messages from WebSocket clients.
      *
-     * @param message The incoming message.
-     * @param session The session from which the message originated.
+     * @param message The incoming message
+     * @param session The session from which the message originated
      */
     @OnMessage
     public void processPoint(String message, Session session) {
@@ -65,7 +75,7 @@ public class BBEndpoint {
     /**
      * Handles opening of WebSocket connections.
      *
-     * @param session The newly opened WebSocket session.
+     * @param session The newly opened WebSocket session
      */
     @OnOpen
     public void openConnection(Session session) {
@@ -76,7 +86,7 @@ public class BBEndpoint {
     /**
      * Handles closure of WebSocket connections.
      *
-     * @param session The closed WebSocket session.
+     * @param session The closed WebSocket session
      */
     @OnClose
     public void closedConnection(Session session) {
@@ -89,8 +99,8 @@ public class BBEndpoint {
     /**
      * Handles WebSocket errors.
      *
-     * @param session The session in which the error occurred.
-     * @param t       The Throwable representing the error.
+     * @param session The session in which the error occurred
+     * @param t       The Throwable representing the error
      */
     @OnError
     public void error(Session session, Throwable t) {
@@ -103,9 +113,9 @@ public class BBEndpoint {
     /**
      * Validates and processes the ticket sent by the client.
      *
-     * @param ticket The ticket sent by the client.
-     * @param session The WebSocket session associated with the client.
-     * @return True if the ticket is valid, false otherwise.
+     * @param ticket  The ticket sent by the client
+     * @param session The WebSocket session associated with the client
+     * @return True if the ticket is valid, false otherwise
      */
     public boolean validateTicket(String ticket, Session session) {
         // Implement ticket validation logic here (e.g., check database, expiration, etc.)
