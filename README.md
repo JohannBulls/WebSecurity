@@ -1,6 +1,6 @@
 # Web Security Application
 
-The project is a simple web application built with Spring Boot and Spring Security. It demonstrates how to secure web applications using Spring Security, with a custom login page, and an in-memory user details service. The application ensures that only authenticated users can access certain pages, while allowing unrestricted access to the login and index pages.
+The project is a simple web application built with Spring Boot and Spring Security. It demonstrates how to secure web applications using Spring Security, featuring a custom login page and an in-memory user details service. The application ensures that only authenticated users can access certain pages, while allowing unrestricted access to the login and index pages. Additionally, it provides functionality for a shared drawing board, enabling users to collaborate in real-time within a secure environment.
 
 ## Features
 
